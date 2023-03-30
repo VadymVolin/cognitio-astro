@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cognitio Astro</string>
+
+    <string name="home_route">Home</string>
+    <string name="add_route">Add</string>
+    <string name="settings_route">Settings</string>
+</resources>
