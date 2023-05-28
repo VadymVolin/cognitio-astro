@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.navigation
+package com.cognitio.astro.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.cognitio.astro.ui.screen.AddScreen
-import com.cognitio.astro.ui.screen.HomeScreen
-import com.cognitio.astro.ui.screen.SettingsScreen
+import com.cognitio.astro.screen.AddScreen
+import com.cognitio.astro.screen.HomeScreen
+import com.cognitio.astro.screen.SettingsScreen
 
 @Composable
 fun BottomBarNavHost(

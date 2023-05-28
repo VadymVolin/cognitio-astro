@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.theme
+package com.cognitio.astro.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

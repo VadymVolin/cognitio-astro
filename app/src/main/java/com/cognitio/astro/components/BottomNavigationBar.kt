@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.components
+package com.cognitio.astro.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -12,7 +12,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.cognitio.astro.ui.navigation.BaseRoute
+import com.cognitio.astro.navigation.BaseRoute
 
 
 @Composable

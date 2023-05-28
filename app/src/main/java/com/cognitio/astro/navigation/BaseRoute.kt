@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.navigation
+package com.cognitio.astro.navigation
 
 import androidx.annotation.StringRes
 import com.cognitio.astro.R

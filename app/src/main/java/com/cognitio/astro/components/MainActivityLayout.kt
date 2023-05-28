@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.components
+package com.cognitio.astro.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -7,8 +7,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.cognitio.astro.ui.navigation.BaseRoute
-import com.cognitio.astro.ui.navigation.BottomBarNavHost
+import com.cognitio.astro.navigation.BaseRoute
+import com.cognitio.astro.navigation.BottomBarNavHost
 
 
 @OptIn(
@@ -26,9 +26,7 @@ fun MainActivityLayout() {
         contentColor = MaterialTheme.colorScheme.onBackground,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
-            BottomNavigationBar(
-                items = items, navigationController = navController
-            )
+            BottomNavigationBar(items = items, navigationController = navController)
         }
     ) {
         val modifier = Modifier

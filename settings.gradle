@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Cognitio Astro"
 include ':app'
+include ':data'
+include ':domain'

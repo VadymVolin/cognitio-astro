@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.components
+package com.cognitio.astro.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

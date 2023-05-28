@@ -1,4 +1,4 @@
-package com.cognitio.astro.ui.theme
+package com.cognitio.astro.theme
 
 import android.app.Activity
 import android.os.Build
