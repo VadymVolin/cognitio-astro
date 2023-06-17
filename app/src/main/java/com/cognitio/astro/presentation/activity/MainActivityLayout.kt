@@ -40,8 +40,7 @@ fun MainActivityLayout() {
             )
         Row(modifier = modifier) {
             BottomBarNavHost(
-                modifier = modifier,
-                navHostModifier = Modifier.padding(it),
+                modifier = Modifier.fillMaxSize(),
                 navController = navController,
             )
         }

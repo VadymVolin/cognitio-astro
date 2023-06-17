@@ -16,6 +16,7 @@ class GetPicturesOfTheDaysUseCase @Inject constructor(
         try {
             val pictureOfTheDays: List<PictureOfTheDay> = nasaGovRepository.getPicturesOfTheDay()
                 .map(BasePictureOfTheDayDTO::toPictureOfTheDay)
+            println("FORTRA   invoke: ${pictureOfTheDays.size}")
             emit(pictureOfTheDays)
         } catch(e: Exception) {
             emit(emptyList())

@@ -6,6 +6,6 @@ import androidx.navigation.NavHostController
 import com.cognitio.astro.presentation.components.Greeting
 
 @Composable
-fun AddScreen(modifier: Modifier, navigationController: NavHostController) {
+fun AddScreen(navigationController: NavHostController) {
     Greeting("Add screen")
 }

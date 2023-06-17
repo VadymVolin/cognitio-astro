@@ -13,20 +13,19 @@ import com.cognitio.astro.presentation.screen.SettingsScreen
 @Composable
 fun BottomBarNavHost(
     modifier: Modifier = Modifier,
-    navHostModifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) = NavHost(
     navController = navController,
     startDestination = BaseRoute.HomeRoute.route,
-    modifier = navHostModifier
+    modifier = modifier
 ) {
     composable(BaseRoute.HomeRoute.route) {
-        HomeScreen(modifier = modifier, navigationController = navController)
+        HomeScreen(navigationController = navController)
     }
     composable(BaseRoute.AddRoute.route) {
-        AddScreen(modifier = modifier, navigationController = navController)
+        AddScreen(navigationController = navController)
     }
     composable(BaseRoute.SettingsRoute.route) {
-        SettingsScreen(modifier = modifier, navigationController = navController)
+        SettingsScreen(navigationController = navController)
     }
 }
