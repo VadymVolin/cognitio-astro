@@ -11,8 +11,11 @@ class PictureOfTheDay(
     val videoUrl: String = StringUtils.EMPTY_STRING,
     val mediaType: MediaType = MediaType.UNDEFINED
 ) {
-
     enum class MediaType {
         VIDEO, IMAGE, UNDEFINED
+    }
+
+    override fun toString(): String {
+        return "PictureOfTheDay(title='$title', description='$description', author='$author', date='$date', imageUrl='$imageUrl', videoUrl='$videoUrl', mediaType=$mediaType)"
     }
 }

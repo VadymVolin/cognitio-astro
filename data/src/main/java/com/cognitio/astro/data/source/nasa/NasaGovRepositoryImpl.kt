@@ -1,7 +1,6 @@
 package com.cognitio.astro.data.source.nasa
 
 import android.net.Uri
-import android.util.Log
 import com.cognitio.astro.data.BuildConfig
 import com.cognitio.astro.data.common.UrlConstants
 import com.cognitio.astro.data.source.nasa.network.api.NasaGovApi
