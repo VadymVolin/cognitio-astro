@@ -3,5 +3,6 @@
 
     <string name="home_route">Home</string>
     <string name="add_route">Add</string>
+    <string name="gallery_route">Gallery</string>
     <string name="settings_route">Settings</string>
 </resources>
