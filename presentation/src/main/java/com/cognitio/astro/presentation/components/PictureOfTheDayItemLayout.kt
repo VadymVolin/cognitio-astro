@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,14 +25,13 @@ import com.cognitio.astro.domain.model.PictureOfTheDay
 import com.cognitio.astro.presentation.common.DrawableUtils
 
 @Composable
-fun PictureOfTheDayItem(
+fun PictureOfTheDayItemLayout(
     pictureOfTheDay: PictureOfTheDay,
     onItemClick: (PictureOfTheDay) -> Unit
 ) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .clickable { onItemClick(pictureOfTheDay) }
-        .padding(bottom = 24.dp)
     ) {
         val isTitlePresent = TextUtils.isEmpty(pictureOfTheDay.title.trim())
         val isAuthorsPresent = TextUtils.isEmpty(pictureOfTheDay.author.trim())
@@ -45,9 +45,14 @@ fun PictureOfTheDayItem(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(pictureOfTheDay.imageUrl)
+                    .fallback(DrawableUtils.getImagePlaceholderId())
+                    .placeholder(DrawableUtils.getImagePlaceholderId())
+                    .error(DrawableUtils.getImagePlaceholderId())
                     .crossfade(true)
                     .build(),
                 placeholder = DrawableUtils.getImagePlaceholder(),
+                fallback = DrawableUtils.getImagePlaceholder(),
+                error = DrawableUtils.getImagePlaceholder(),
                 contentDescription = pictureOfTheDay.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -99,6 +104,7 @@ fun PictureOfTheDayItem(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }

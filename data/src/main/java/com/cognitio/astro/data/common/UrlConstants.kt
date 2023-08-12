@@ -1,6 +1,8 @@
 package com.cognitio.astro.data.common
 
 object UrlConstants {
+    const val MOCK_URL = "https://temp.com/"
+
     /**
      * NASA GOV API url
      */

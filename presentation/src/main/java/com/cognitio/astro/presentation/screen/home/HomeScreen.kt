@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.cognitio.astro.presentation.components.PictureOfTheDayItem
+import com.cognitio.astro.presentation.components.PictureOfTheDayItemLayout
 
 const val TAG = "HomeScreen"
 
@@ -33,7 +33,7 @@ fun HomeScreen(
         .fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(screenState.value.data) { item ->
-                PictureOfTheDayItem(pictureOfTheDay = item, onItemClick = {
+                PictureOfTheDayItemLayout(pictureOfTheDay = item, onItemClick = {
                     Log.d(TAG, "HomeScreen: $it")
                 })
             }

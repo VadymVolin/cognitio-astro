@@ -11,9 +11,7 @@ import com.cognitio.astro.presentation.navigation.BaseRoute
 import com.cognitio.astro.presentation.navigation.BottomBarNavHost
 
 
-@OptIn(
-    ExperimentalLayoutApi::class
-)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MainActivityLayout() {
     val items = listOf(
@@ -29,7 +27,7 @@ fun MainActivityLayout() {
             BottomNavigationBar(items = items, navigationController = navController)
         }
     ) {
-        val modifier = Modifier
+        Row(modifier = Modifier
             .fillMaxSize()
             .padding(it)
             .consumeWindowInsets(it)
@@ -37,11 +35,10 @@ fun MainActivityLayout() {
                 WindowInsets.safeDrawing.only(
                     WindowInsetsSides.Horizontal,
                 ),
-            )
-        Row(modifier = modifier) {
+            )) {
             BottomBarNavHost(
                 modifier = Modifier.fillMaxSize(),
-                navController = navController,
+                navController = navController
             )
         }
     }

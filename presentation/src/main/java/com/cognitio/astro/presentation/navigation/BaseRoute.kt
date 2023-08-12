@@ -1,7 +1,7 @@
 package com.cognitio.astro.presentation.navigation
 
 import androidx.annotation.StringRes
-import com.cognitio.astro.R
+import com.cognitio.astro.presentation.R
 
 sealed class BaseRoute(val route: String, @StringRes val stringResourceId: Int) {
     object HomeRoute : BaseRoute("home", R.string.home_route)

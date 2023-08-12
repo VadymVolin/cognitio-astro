@@ -33,7 +33,7 @@ fun BasePictureOfTheDayDTO.toPictureOfTheDay(): PictureOfTheDay {
         author = this.copyright,
         date = this.date,
         mediaType = mediaType,
-        videoUrl = if (mediaType == PictureOfTheDay.MediaType.VIDEO) this.url else StringUtils.EMPTY_STRING,
-        imageUrl = if (mediaType == PictureOfTheDay.MediaType.VIDEO) this.thumbnailUrl else this.hdurl
+        videoUrl = if (mediaType == PictureOfTheDay.MediaType.VIDEO) this.thumbnailUrl else this.hdurl,
+        imageUrl = if (mediaType == PictureOfTheDay.MediaType.IMAGE) this.url else this.hdurl
     )
 }

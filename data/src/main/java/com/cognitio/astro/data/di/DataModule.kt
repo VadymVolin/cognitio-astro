@@ -1,5 +1,6 @@
 package com.cognitio.astro.data.di
 
+import com.cognitio.astro.data.common.UrlConstants
 import com.cognitio.astro.data.source.nasa.NasaGovRepositoryImpl
 import com.cognitio.astro.data.source.nasa.network.api.NasaGovApi
 import com.cognitio.astro.domain.repository.NasaGovRepository
@@ -10,8 +11,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -25,7 +28,16 @@ abstract class DataModule {
         @Singleton
         @Provides
         fun provideRetrofit(moshi: Moshi): Retrofit =
-            Retrofit.Builder().baseUrl("https://temp.com/").addConverterFactory(MoshiConverterFactory.create(moshi)).build()
+            Retrofit.Builder().baseUrl(UrlConstants.MOCK_URL)
+                .client(
+                    OkHttpClient.Builder()
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .writeTimeout(60, TimeUnit.SECONDS)
+                        .callTimeout(60, TimeUnit.SECONDS)
+                        .build()
+                )
+                .addConverterFactory(MoshiConverterFactory.create(moshi)).build()
 
         @Singleton
         @Provides

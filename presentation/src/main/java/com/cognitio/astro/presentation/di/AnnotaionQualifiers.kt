@@ -1,4 +1,4 @@
-package com.cognitio.astro.di
+package com.cognitio.astro.presentation.di
 
 import javax.inject.Qualifier
 
