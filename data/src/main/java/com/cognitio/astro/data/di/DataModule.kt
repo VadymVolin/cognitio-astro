@@ -1,6 +1,6 @@
 package com.cognitio.astro.data.di
 
-import com.cognitio.astro.data.common.UrlConstants
+import com.cognitio.astro.util.UrlConstants
 import com.cognitio.astro.data.source.nasa.NasaGovRepositoryImpl
 import com.cognitio.astro.data.source.nasa.network.api.NasaGovApi
 import com.cognitio.astro.domain.repository.NasaGovRepository

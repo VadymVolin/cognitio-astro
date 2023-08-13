@@ -1,4 +1,4 @@
-package com.cognitio.astro.data.common
+package com.cognitio.astro.util
 
 object UrlConstants {
     const val MOCK_URL = "https://temp.com/"
