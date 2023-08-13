@@ -1,4 +1,4 @@
-package com.cognitio.astro.presentation.screen.home
+package com.cognitio.astro.presentation.screen.nasa.home
 
 import com.cognitio.astro.domain.model.PictureOfTheDay
 import com.cognitio.astro.presentation.screen.common.state.BaseScreenState

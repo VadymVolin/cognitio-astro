@@ -1,4 +1,4 @@
-package com.cognitio.astro.presentation.screen.home
+package com.cognitio.astro.presentation.screen.nasa.home
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
