@@ -5,4 +5,5 @@
     <string name="add_route">Add</string>
     <string name="gallery_route">Gallery</string>
     <string name="settings_route">Settings</string>
+    <string name="close_icon_text">Close</string>
 </resources>

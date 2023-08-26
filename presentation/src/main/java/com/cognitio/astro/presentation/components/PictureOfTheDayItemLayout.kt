@@ -39,8 +39,7 @@ fun PictureOfTheDayItemLayout(
         val isDatePresent = TextUtils.isEmpty(pictureOfTheDay.date.trim())
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -71,6 +70,7 @@ fun PictureOfTheDayItemLayout(
                             .fillMaxWidth()
                             .padding(bottom = if (!isAuthorsPresent) 8.dp else 4.dp)
                             .wrapContentHeight(),
+                        color = MaterialTheme.colors.onBackground,
                         maxLines = 2
                     )
                 }
@@ -92,6 +92,7 @@ fun PictureOfTheDayItemLayout(
                             .padding(bottom = if (!isDatePresent) 8.dp else 4.dp)
                             .wrapContentHeight(),
                         maxLines = 3,
+                        textAlign = TextAlign.Justify,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
