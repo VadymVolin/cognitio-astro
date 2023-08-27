@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.onStart
+import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -20,22 +22,29 @@ class HomeViewModel @Inject constructor(
 
     companion object {
         val TAG: String = HomeViewModel::class.java.name
+
+        private val DATE_PORTION_STEP = 5L.days.inWholeMilliseconds
     }
 
     private val _state = mutableStateOf(HomeScreenState(isLoading = true))
     val state: State<HomeScreenState> = _state
 
+    private val endDateTime: AtomicLong = AtomicLong(System.currentTimeMillis() - 1L.days.inWholeMilliseconds)
+    private val startDateTime: AtomicLong = AtomicLong(endDateTime.get() - DATE_PORTION_STEP)
+
     init {
+        resetDatePortionRange()
         getData()
     }
 
-    private fun getData() = getPicturesOfTheDaysUseCase.invoke()
+    private fun getData() = getPicturesOfTheDaysUseCase.invoke(startDate = startDateTime.get(), endDate = endDateTime.get())
         .onEmpty {
             Log.d(TAG, "No data received")
             _state.value = HomeScreenState(error = "No data, please refresh page")
         }
         .onStart {
             Log.d(TAG, "Loading started")
+
             _state.value = HomeScreenState(
                 isLoading = true,
                 data = _state.value.data,
@@ -48,10 +57,22 @@ class HomeViewModel @Inject constructor(
                 Log.d(TAG, "No data received")
                 _state.value = HomeScreenState(error = "No data, please refresh page")
             } else {
+                startDateTime.set(startDateTime.get() - DATE_PORTION_STEP)
+                endDateTime.set(endDateTime.get() - DATE_PORTION_STEP)
                 _state.value = HomeScreenState(data = it)
             }
         }.launchIn(viewModelScope)
 
-    fun refresh() = getData()
+    fun loadNextPortion() = getData()
+
+    fun refresh() {
+        resetDatePortionRange()
+        getData()
+    }
+
+    private fun resetDatePortionRange() {
+        endDateTime.set(System.currentTimeMillis() - 1L.days.inWholeMilliseconds)
+        startDateTime.set(endDateTime.get() - DATE_PORTION_STEP)
+    }
 
 }

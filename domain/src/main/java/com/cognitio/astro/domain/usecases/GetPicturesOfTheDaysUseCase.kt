@@ -12,9 +12,9 @@ import javax.inject.Inject
 class GetPicturesOfTheDaysUseCase @Inject constructor(
     private val nasaGovRepository: NasaGovRepository
 ) {
-    operator fun invoke(): Flow<List<PictureOfTheDay>> = flow {
+    operator fun invoke(startDate: Long, endDate: Long): Flow<List<PictureOfTheDay>> = flow {
         try {
-            val pictureOfTheDays: List<PictureOfTheDay> = nasaGovRepository.getPicturesOfTheDay()
+            val pictureOfTheDays: List<PictureOfTheDay> = nasaGovRepository.getPicturesOfTheDay(startDate, endDate)
                 .map(BasePictureOfTheDayDTO::toPictureOfTheDay)
             emit(pictureOfTheDays)
         } catch(e: Exception) {
