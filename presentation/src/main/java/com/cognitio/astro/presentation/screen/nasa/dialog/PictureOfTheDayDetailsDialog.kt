@@ -70,9 +70,7 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
                     .requiredHeight(400.dp)
                     .padding(top = 200.dp)
                     .background(
-                        brush = Brush.verticalGradient(
-                                0f to Color.Transparent, 1f to MaterialTheme.colorScheme.surface
-                        )
+                        brush = Brush.verticalGradient(0f to Color.Transparent, 1f to MaterialTheme.colorScheme.surface)
                     )
             )
         Column(
@@ -124,6 +122,7 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
                         fontSize = 18.sp,
                         fontFamily = FontFamily.Default,
                         fontWeight = FontWeight.Normal,
+                        lineHeight = 26.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )

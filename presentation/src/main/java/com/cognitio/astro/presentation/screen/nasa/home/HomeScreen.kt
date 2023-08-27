@@ -33,15 +33,16 @@ fun HomeScreen(
 ) {
     val screenState = viewModel.state
     val refreshState = rememberPullRefreshState(screenState.value.isLoading, viewModel::refresh)
-    val dialogState = remember { mutableStateOf(false) }
-    val dialogStateModel = remember { mutableStateOf<PictureOfTheDay?>(null) }
 
-    if (dialogState.value) {
+    val dialogVisibilityState = remember { mutableStateOf(false) }
+    val dialogDataState = remember { mutableStateOf<PictureOfTheDay?>(null) }
+
+    if (dialogVisibilityState.value) {
         DialogScreen(
-            dialogContent = { PictureOfTheDayDetailsDialog(pictureOfTheDay = dialogStateModel.value) },
-            dialogTitle = dialogStateModel.value?.title,
+            dialogContent = { PictureOfTheDayDetailsDialog(pictureOfTheDay = dialogDataState.value) },
+            dialogTitle = dialogDataState.value?.title,
             setShowDialog = {
-                dialogState.value = it
+                dialogVisibilityState.value = it
             })
     }
 
@@ -54,8 +55,8 @@ fun HomeScreen(
             items(screenState.value.data) { item ->
                 PictureOfTheDayItemLayout(pictureOfTheDay = item, onItemClick = {
                     Log.d(TAG, "HomeScreen: $it")
-                    dialogStateModel.value = it
-                    dialogState.value = true
+                    dialogDataState.value = it
+                    dialogVisibilityState.value = true
                 })
             }
         }
