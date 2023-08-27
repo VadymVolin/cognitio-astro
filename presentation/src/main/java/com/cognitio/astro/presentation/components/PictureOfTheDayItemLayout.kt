@@ -10,15 +10,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cognitio.astro.domain.model.PictureOfTheDay
@@ -31,6 +37,7 @@ fun PictureOfTheDayItemLayout(
 ) {
     Row(modifier = Modifier
         .fillMaxWidth()
+        .background(MaterialTheme.colorScheme.surface)
         .clickable { onItemClick(pictureOfTheDay) }
     ) {
         val isTitlePresent = TextUtils.isEmpty(pictureOfTheDay.title.trim())
@@ -41,6 +48,7 @@ fun PictureOfTheDayItemLayout(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -58,7 +66,7 @@ fun PictureOfTheDayItemLayout(
                 modifier = Modifier
                     .height(240.dp)
                     .padding(bottom = 12.dp)
-                    .background(MaterialTheme.colors.onBackground)
+                    .background(MaterialTheme.colorScheme.surface)
             )
             Column(
                 modifier = Modifier
@@ -71,7 +79,13 @@ fun PictureOfTheDayItemLayout(
                             .fillMaxWidth()
                             .padding(bottom = if (!isAuthorsPresent) 8.dp else 4.dp)
                             .wrapContentHeight(),
-                        maxLines = 2
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.Black
+                        )
                     )
                 }
                 if (!isAuthorsPresent) {
@@ -81,7 +95,13 @@ fun PictureOfTheDayItemLayout(
                             .padding(bottom = if (!isDescriptionPresent) 8.dp else 4.dp)
                             .fillMaxWidth(),
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        overflow = TextOverflow.Ellipsis,
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
                 if (!isDescriptionPresent) {
@@ -92,7 +112,14 @@ fun PictureOfTheDayItemLayout(
                             .padding(bottom = if (!isDatePresent) 8.dp else 4.dp)
                             .wrapContentHeight(),
                         maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Justify,
+                        overflow = TextOverflow.Ellipsis,
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.Normal
+                        )
                     )
                 }
                 if (!isDatePresent) {
@@ -100,8 +127,14 @@ fun PictureOfTheDayItemLayout(
                         text = pictureOfTheDay.date.trim(),
                         modifier = Modifier
                             .fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.End,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.Normal
+                        )
                     )
                 }
                 Spacer(modifier = Modifier.height(24.dp))
