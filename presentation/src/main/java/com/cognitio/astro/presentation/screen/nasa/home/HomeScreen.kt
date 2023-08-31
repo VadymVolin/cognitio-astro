@@ -1,6 +1,7 @@
 package com.cognitio.astro.presentation.screen.nasa.home
 
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,10 +23,11 @@ import com.cognitio.astro.domain.model.PictureOfTheDay
 import com.cognitio.astro.presentation.components.PictureOfTheDayItemLayout
 import com.cognitio.astro.presentation.screen.common.DialogScreen
 import com.cognitio.astro.presentation.screen.nasa.dialog.PictureOfTheDayDetailsDialog
+import java.util.Objects
 
 const val TAG = "HomeScreen"
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
@@ -52,8 +54,23 @@ fun HomeScreen(
             .fillMaxSize()
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(screenState.value.data) { item ->
-                PictureOfTheDayItemLayout(pictureOfTheDay = item, onItemClick = {
+            items(
+                screenState.value.data,
+                key = {
+                    Objects.hash(
+                        it.mediaType,
+                        it.author,
+                        it.description,
+                        it.title,
+                        it.date,
+                        it.imageUrl,
+                        it.videoUrl
+                    )
+                }) { item ->
+                PictureOfTheDayItemLayout(
+                    Modifier.animateItemPlacement(),
+                    pictureOfTheDay = item,
+                    onItemClick = {
                     Log.d(TAG, "HomeScreen: $it")
                     dialogDataState.value = it
                     dialogVisibilityState.value = true
