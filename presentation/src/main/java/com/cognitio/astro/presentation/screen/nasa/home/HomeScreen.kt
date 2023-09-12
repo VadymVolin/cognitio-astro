@@ -83,7 +83,7 @@ fun HomeScreen(
         PullRefreshIndicator(
             screenState.value.isLoading,
             refreshState,
-            Modifier.align(Alignment.TopCenter),
+            Modifier.align(Alignment.Center),
             backgroundColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.primary
         )
