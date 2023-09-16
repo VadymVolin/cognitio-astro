@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
     companion object {
         val TAG: String = HomeViewModel::class.java.name
 
-        private val DATE_PORTION_STEP = 5L.days.inWholeMilliseconds
+        private val DATE_PORTION_STEP = 10L.days.inWholeMilliseconds
     }
 
     private val _state = mutableStateOf(HomeScreenState(isLoading = true))
@@ -40,16 +40,11 @@ class HomeViewModel @Inject constructor(
     private fun getData() = getPicturesOfTheDaysUseCase.invoke(startDate = startDateTime.get(), endDate = endDateTime.get())
         .onEmpty {
             Log.d(TAG, "No data received")
-            _state.value = HomeScreenState(error = "No data, please refresh page")
+            _state.value = _state.value.copy(error = "No data, please refresh page")
         }
         .onStart {
             Log.d(TAG, "Loading started")
-
-            _state.value = HomeScreenState(
-                isLoading = true,
-                data = _state.value.data,
-                error = _state.value.error
-            )
+            _state.value = _state.value.copy(isLoading = true)
         }
         .onEach {
             Log.d(TAG, "Data is loaded, items[${it.size}]")
