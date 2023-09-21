@@ -4,11 +4,12 @@ import android.text.TextUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -39,54 +40,80 @@ import com.cognitio.astro.presentation.theme.CognitioAstroTheme
 @Composable
 fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
     if (pictureOfTheDay == null) {
-        Text(text = "No data", modifier = Modifier.fillMaxSize())
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            androidx.compose.material.Text(
+                text = "No data",
+                color = MaterialTheme.colorScheme.error
+            )
+        }
         return
     }
 
-    val isAuthorsPresent = TextUtils.isEmpty(pictureOfTheDay.author.trim())
-    val isDescriptionPresent = TextUtils.isEmpty(pictureOfTheDay.description.trim())
-    val isDatePresent = TextUtils.isEmpty(pictureOfTheDay.date.trim())
-
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        Box(modifier = Modifier.padding(bottom = 16.dp)) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current).data(pictureOfTheDay.imageUrl)
-                    .fallback(DrawableUtils.getImagePlaceholderId())
-                    .placeholder(DrawableUtils.getImagePlaceholderId())
-                    .error(DrawableUtils.getImagePlaceholderId()).crossfade(true).build(),
-                placeholder = DrawableUtils.getImagePlaceholder(),
-                fallback = DrawableUtils.getImagePlaceholder(),
-                error = DrawableUtils.getImagePlaceholder(),
-                contentDescription = pictureOfTheDay.title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .height(400.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .requiredHeight(400.dp)
-                    .padding(top = 200.dp)
-                    .background(
-                        brush = Brush.verticalGradient(0f to Color.Transparent, 1f to MaterialTheme.colorScheme.surface)
+    val isTitlePresent = !TextUtils.isEmpty(pictureOfTheDay.title.trim())
+    val isAuthorsPresent = !TextUtils.isEmpty(pictureOfTheDay.author.trim())
+    val isDescriptionPresent = !TextUtils.isEmpty(pictureOfTheDay.description.trim())
+    val isDatePresent = !TextUtils.isEmpty(pictureOfTheDay.date.trim())
+    Box {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current).data(pictureOfTheDay.imageUrl)
+                .fallback(DrawableUtils.getImagePlaceholderId())
+                .placeholder(DrawableUtils.getImagePlaceholderId())
+                .error(DrawableUtils.getImagePlaceholderId()).crossfade(true).build(),
+            placeholder = DrawableUtils.getImagePlaceholder(),
+            fallback = DrawableUtils.getImagePlaceholder(),
+            error = DrawableUtils.getImagePlaceholder(),
+            contentDescription = pictureOfTheDay.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .matchParentSize()
+                .background(MaterialTheme.colorScheme.surface)
+        )
+        Spacer(
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        0f to Color.Transparent, 1f to MaterialTheme.colorScheme.surface
                     )
-            )
+                )
+        )
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
-                .padding(top = 360.dp)
-                .padding(horizontal = 12.dp),
-            horizontalAlignment = Alignment.Start
+                .padding(horizontal = 12.dp)
         ) {
-            if (!isAuthorsPresent) {
+            Spacer(modifier = Modifier.aspectRatio(.55f, true))
+            if (isTitlePresent) {
+                Text(
+                    text = pictureOfTheDay.title.trim(),
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 2,
+                    textAlign = TextAlign.Justify,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextStyle(
+                        fontSize = 32.sp,
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(16.dp)
+                        .fillMaxWidth()
+                )
+            }
+            if (isAuthorsPresent) {
                 Text(
                     text = pictureOfTheDay.author.trim(),
-                    modifier = Modifier
-                        .padding(bottom = if (!isDatePresent) 8.dp else 12.dp)
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     maxLines = 2,
+                    textAlign = TextAlign.Justify,
                     overflow = TextOverflow.Ellipsis,
                     style = TextStyle(
                         fontSize = 18.sp,
@@ -95,13 +122,17 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
+                Spacer(
+                    modifier = Modifier
+                        .height(16.dp)
+                        .fillMaxWidth()
+                )
             }
-            if (!isDatePresent) {
+            if (isDatePresent) {
                 Text(
                     text = pictureOfTheDay.date.trim(),
-                    modifier = Modifier
-                        .padding(bottom = if (!isDescriptionPresent) 8.dp else 16.dp)
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Justify,
                     overflow = TextOverflow.Ellipsis,
                     style = TextStyle(
                         fontSize = 14.sp,
@@ -110,13 +141,16 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
+                Spacer(
+                    modifier = Modifier
+                        .height(16.dp)
+                        .fillMaxWidth()
+                )
             }
-            if (!isDescriptionPresent) {
+            if (isDescriptionPresent) {
                 Text(
                     text = pictureOfTheDay.description,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Justify,
                     style = TextStyle(
                         fontSize = 18.sp,
@@ -126,8 +160,12 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
+                Spacer(
+                    modifier = Modifier
+                        .height(32.dp)
+                        .fillMaxWidth()
+                )
             }
-        }
         }
     }
 }
@@ -146,7 +184,6 @@ fun PODPreview() {
             mediaType = PictureOfTheDay.MediaType.IMAGE
         )
         DialogScreen(dialogContent = { PictureOfTheDayDetailsDialog(pictureOfTheDay = item) },
-            dialogTitle = item.title,
             setShowDialog = {})
     }
 }

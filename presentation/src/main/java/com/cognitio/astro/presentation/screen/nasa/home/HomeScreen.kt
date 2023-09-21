@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cognitio.astro.domain.model.PictureOfTheDay
-import com.cognitio.astro.presentation.components.PictureOfTheDayItemLayout
+import com.cognitio.astro.presentation.components.nasa.PictureOfTheDayItemLayout
 import com.cognitio.astro.presentation.screen.common.DialogScreen
 import com.cognitio.astro.presentation.screen.common.state.BaseScreenState
 import com.cognitio.astro.presentation.screen.nasa.dialog.PictureOfTheDayDetailsDialog
@@ -49,7 +49,6 @@ fun HomeScreen(
     if (dialogVisibilityState.value) {
         DialogScreen(
             dialogContent = { PictureOfTheDayDetailsDialog(pictureOfTheDay = dialogDataState.value) },
-            dialogTitle = dialogDataState.value?.title,
             setShowDialog = {
                 dialogVisibilityState.value = it
             })

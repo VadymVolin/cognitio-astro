@@ -1,4 +1,4 @@
-package com.cognitio.astro.presentation.components
+package com.cognitio.astro.presentation.components.nasa
 
 import android.text.TextUtils
 import androidx.compose.foundation.background
@@ -81,7 +81,7 @@ fun PictureOfTheDayItemLayout(
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
                         style = TextStyle(
-                            fontSize = 16.sp,
+                            fontSize = 24.sp,
                             fontFamily = FontFamily.Default,
                             fontWeight = FontWeight.Black
                         )
@@ -115,7 +115,7 @@ fun PictureOfTheDayItemLayout(
                         textAlign = TextAlign.Justify,
                         overflow = TextOverflow.Ellipsis,
                         style = TextStyle(
-                            fontSize = 12.sp,
+                            fontSize = 16.sp,
                             fontFamily = FontFamily.Default,
                             fontWeight = FontWeight.Normal
                         )
