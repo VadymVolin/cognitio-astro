@@ -11,7 +11,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.cognitio.astro"
+        applicationId "com.cognitio.astro.android.mobile"
         minSdk 28
         targetSdk 33
         versionCode 1
