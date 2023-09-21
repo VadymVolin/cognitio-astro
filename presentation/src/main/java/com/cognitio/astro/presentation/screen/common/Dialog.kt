@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -30,12 +31,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cognitio.astro.presentation.R
+import com.cognitio.astro.util.StringUtils
 
 
 @Composable
 fun DialogScreen(
     dialogContent: @Composable () -> Unit,
-    dialogTitle: String?,
+    dialogTitle: String? = StringUtils.EMPTY_STRING,
     setShowDialog: (Boolean) -> Unit,
 ) {
     Dialog(properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -61,8 +63,9 @@ fun DialogScreen(
                     dialogTitle?.let {
                         Text(
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .height(40.dp)
-                                .padding(start = 12.dp, top = 12.dp),
+                                .padding(start = 12.dp, top = 12.dp, end = 64.dp),
                             text = it,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
@@ -74,14 +77,15 @@ fun DialogScreen(
                             )
                         )
                     }
-                    Icon(imageVector = Icons.Filled.Close,
-                        contentDescription = stringResource(R.string.close_icon_text),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(top = 12.dp, end = 12.dp)
-                            .clickable { setShowDialog(false) })
                 }
+                Icon(imageVector = Icons.Filled.Close,
+                    contentDescription = stringResource(R.string.close_icon_text),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.TopEnd)
+                        .padding(top = 12.dp, end = 12.dp)
+                        .clickable { setShowDialog(false) })
             }
         }
     }

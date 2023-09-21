@@ -1,4 +1,4 @@
-package com.cognitio.astro.presentation.components
+package com.cognitio.astro.presentation.components.nasa
 
 import android.text.TextUtils
 import androidx.compose.foundation.background
@@ -21,8 +21,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -32,6 +30,7 @@ import com.cognitio.astro.presentation.common.DrawableUtils
 
 @Composable
 fun PictureOfTheDayItemLayout(
+    modifier: Modifier,
     pictureOfTheDay: PictureOfTheDay,
     onItemClick: (PictureOfTheDay) -> Unit
 ) {
@@ -46,7 +45,7 @@ fun PictureOfTheDayItemLayout(
         val isDatePresent = TextUtils.isEmpty(pictureOfTheDay.date.trim())
 
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
@@ -82,7 +81,7 @@ fun PictureOfTheDayItemLayout(
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
                         style = TextStyle(
-                            fontSize = 16.sp,
+                            fontSize = 24.sp,
                             fontFamily = FontFamily.Default,
                             fontWeight = FontWeight.Black
                         )
@@ -116,7 +115,7 @@ fun PictureOfTheDayItemLayout(
                         textAlign = TextAlign.Justify,
                         overflow = TextOverflow.Ellipsis,
                         style = TextStyle(
-                            fontSize = 12.sp,
+                            fontSize = 16.sp,
                             fontFamily = FontFamily.Default,
                             fontWeight = FontWeight.Normal
                         )
