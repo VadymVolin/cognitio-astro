@@ -1,9 +1,11 @@
 package com.cognitio.astro.data.di
 
+import com.cognitio.astro.data.source.firebase.CloudStorageRepositoryImpl
 import com.cognitio.astro.util.UrlConstants
 import com.cognitio.astro.data.source.nasa.NasaGovRepositoryImpl
 import com.cognitio.astro.data.source.nasa.network.api.NasaGovApi
-import com.cognitio.astro.domain.repository.NasaGovRepository
+import com.cognitio.astro.domain.repository.firebase.CloudStorageRepository
+import com.cognitio.astro.domain.repository.nasa.NasaGovRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
@@ -47,4 +49,8 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun bindNasaGovRepository(nasaGovRepository: NasaGovRepositoryImpl): NasaGovRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindCloudStorageRepository(cloudStorageRepository: CloudStorageRepositoryImpl): CloudStorageRepository
 }

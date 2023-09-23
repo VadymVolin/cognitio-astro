@@ -1,7 +1,7 @@
 package com.cognitio.astro.data.source.nasa.network.dto
 
 import android.os.Parcelable
-import com.cognitio.astro.domain.repository.dto.BasePictureOfTheDayDTO
+import com.cognitio.astro.domain.repository.nasa.dto.BaseNasaPictureOfTheDayDTO
 import com.cognitio.astro.util.StringUtils
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-class PictureOfTheDayDTO(
+class NasaPictureOfTheDayDTO(
     @Json(name = "copyright")
     override val copyright: String = StringUtils.EMPTY_STRING,
     @Json(name = "date")
@@ -40,4 +40,4 @@ class PictureOfTheDayDTO(
      */
     @Json(name = "url")
     override val url: String = StringUtils.EMPTY_STRING
-) : BasePictureOfTheDayDTO, Parcelable
+) : BaseNasaPictureOfTheDayDTO, Parcelable

@@ -32,14 +32,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.cognitio.astro.domain.model.PictureOfTheDay
+import com.cognitio.astro.domain.model.NasaPictureOfTheDay
 import com.cognitio.astro.presentation.common.DrawableUtils
 import com.cognitio.astro.presentation.screen.common.DialogScreen
 import com.cognitio.astro.presentation.theme.CognitioAstroTheme
 
 @Composable
-fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
-    if (pictureOfTheDay == null) {
+fun NasaPictureOfTheDayDetailsDialog(nasaPictureOfTheDay: NasaPictureOfTheDay?) {
+    if (nasaPictureOfTheDay == null) {
         Box(
             modifier = Modifier
                 .fillMaxSize(),
@@ -53,20 +53,21 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
         return
     }
 
-    val isTitlePresent = !TextUtils.isEmpty(pictureOfTheDay.title.trim())
-    val isAuthorsPresent = !TextUtils.isEmpty(pictureOfTheDay.author.trim())
-    val isDescriptionPresent = !TextUtils.isEmpty(pictureOfTheDay.description.trim())
-    val isDatePresent = !TextUtils.isEmpty(pictureOfTheDay.date.trim())
+    val isTitlePresent = !TextUtils.isEmpty(nasaPictureOfTheDay.title.trim())
+    val isAuthorsPresent = !TextUtils.isEmpty(nasaPictureOfTheDay.author.trim())
+    val isDescriptionPresent = !TextUtils.isEmpty(nasaPictureOfTheDay.description.trim())
+    val isDatePresent = !TextUtils.isEmpty(nasaPictureOfTheDay.date.trim())
     Box {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(pictureOfTheDay.imageUrl)
-                .fallback(DrawableUtils.getImagePlaceholderId())
-                .placeholder(DrawableUtils.getImagePlaceholderId())
-                .error(DrawableUtils.getImagePlaceholderId()).crossfade(true).build(),
-            placeholder = DrawableUtils.getImagePlaceholder(),
-            fallback = DrawableUtils.getImagePlaceholder(),
-            error = DrawableUtils.getImagePlaceholder(),
-            contentDescription = pictureOfTheDay.title,
+            model = ImageRequest.Builder(LocalContext.current).data(nasaPictureOfTheDay.imageUrl)
+                .fallback(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                .placeholder(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                .error(DrawableUtils.IconResource.PlanetPlaceholder.resourceId).crossfade(true).build(),
+            placeholder = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+            fallback = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+            error = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+            contentDescription = nasaPictureOfTheDay.title,
+            alignment = Alignment.Center,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .matchParentSize()
@@ -90,7 +91,7 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
             Spacer(modifier = Modifier.aspectRatio(.55f, true))
             if (isTitlePresent) {
                 Text(
-                    text = pictureOfTheDay.title.trim(),
+                    text = nasaPictureOfTheDay.title.trim(),
                     modifier = Modifier.fillMaxWidth(),
                     maxLines = 2,
                     textAlign = TextAlign.Justify,
@@ -110,7 +111,7 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
             }
             if (isAuthorsPresent) {
                 Text(
-                    text = pictureOfTheDay.author.trim(),
+                    text = nasaPictureOfTheDay.author.trim(),
                     modifier = Modifier.fillMaxWidth(),
                     maxLines = 2,
                     textAlign = TextAlign.Justify,
@@ -130,7 +131,7 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
             }
             if (isDatePresent) {
                 Text(
-                    text = pictureOfTheDay.date.trim(),
+                    text = nasaPictureOfTheDay.date.trim(),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Justify,
                     overflow = TextOverflow.Ellipsis,
@@ -149,7 +150,7 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
             }
             if (isDescriptionPresent) {
                 Text(
-                    text = pictureOfTheDay.description,
+                    text = nasaPictureOfTheDay.description,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Justify,
                     style = TextStyle(
@@ -175,15 +176,15 @@ fun PictureOfTheDayDetailsDialog(pictureOfTheDay: PictureOfTheDay?) {
 @Composable
 fun PODPreview() {
     CognitioAstroTheme {
-        val item = PictureOfTheDay(
+        val item = NasaPictureOfTheDay(
             title = LoremIpsum(words = 4).values.joinToString(" "),
             description = LoremIpsum(words = 200).values.joinToString(" "),
             author = LoremIpsum(words = 7).values.joinToString(" "),
             date = LoremIpsum(words = 3).values.joinToString(" "),
             imageUrl = "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001840/GSFC_20171208_Archive_e001840~orig.jpg?w=1736&h=1933&fit=crop&crop=faces%2Cfocalpoint",
-            mediaType = PictureOfTheDay.MediaType.IMAGE
+            mediaType = NasaPictureOfTheDay.MediaType.IMAGE
         )
-        DialogScreen(dialogContent = { PictureOfTheDayDetailsDialog(pictureOfTheDay = item) },
+        DialogScreen(dialogContent = { NasaPictureOfTheDayDetailsDialog(nasaPictureOfTheDay = item) },
             setShowDialog = {})
     }
 }

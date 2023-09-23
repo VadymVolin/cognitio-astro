@@ -1,4 +1,4 @@
-package com.cognitio.astro.presentation.screen.nasa.home
+package com.cognitio.astro.presentation.screen.nasa.screen
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,19 +22,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.cognitio.astro.domain.model.PictureOfTheDay
-import com.cognitio.astro.presentation.components.nasa.PictureOfTheDayItemLayout
+import com.cognitio.astro.domain.model.NasaPictureOfTheDay
+import com.cognitio.astro.presentation.components.nasa.NasaPictureOfTheDayItemLayout
 import com.cognitio.astro.presentation.screen.common.DialogScreen
 import com.cognitio.astro.presentation.screen.common.state.BaseScreenState
-import com.cognitio.astro.presentation.screen.nasa.dialog.PictureOfTheDayDetailsDialog
+import com.cognitio.astro.presentation.screen.nasa.dialog.NasaPictureOfTheDayDetailsDialog
 import java.util.Objects
 
-const val TAG = "HomeScreen"
+const val TAG = "NasaPictureOfTheDayScreen"
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
+fun NasaPictureOfTheDayScreen(
+    viewModel: NasaPictureOfTheDayScreenViewModel = hiltViewModel(),
     navigationController: NavHostController
 ) {
     val screenState = viewModel.state
@@ -44,11 +44,11 @@ fun HomeScreen(
     )
 
     val dialogVisibilityState = remember { mutableStateOf(false) }
-    val dialogDataState = remember { mutableStateOf<PictureOfTheDay?>(null) }
+    val dialogDataState = remember { mutableStateOf<NasaPictureOfTheDay?>(null) }
 
     if (dialogVisibilityState.value) {
         DialogScreen(
-            dialogContent = { PictureOfTheDayDetailsDialog(pictureOfTheDay = dialogDataState.value) },
+            dialogContent = { NasaPictureOfTheDayDetailsDialog(nasaPictureOfTheDay = dialogDataState.value) },
             setShowDialog = {
                 dialogVisibilityState.value = it
             })
@@ -75,9 +75,9 @@ fun HomeScreen(
                     )
                 },
             ) { index ->
-                PictureOfTheDayItemLayout(
+                NasaPictureOfTheDayItemLayout(
                     Modifier.animateItemPlacement(),
-                    pictureOfTheDay = screenState.value.data[index],
+                    nasaPictureOfTheDay = screenState.value.data[index],
                     onItemClick = {
                         Log.d(TAG, "Select picture of the day: $it")
                         dialogDataState.value = it

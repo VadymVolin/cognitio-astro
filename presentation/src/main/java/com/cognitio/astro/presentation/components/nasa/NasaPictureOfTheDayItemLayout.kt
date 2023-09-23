@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -25,24 +26,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.cognitio.astro.domain.model.PictureOfTheDay
+import com.cognitio.astro.domain.model.NasaPictureOfTheDay
 import com.cognitio.astro.presentation.common.DrawableUtils
 
 @Composable
-fun PictureOfTheDayItemLayout(
+fun NasaPictureOfTheDayItemLayout(
     modifier: Modifier,
-    pictureOfTheDay: PictureOfTheDay,
-    onItemClick: (PictureOfTheDay) -> Unit
+    nasaPictureOfTheDay: NasaPictureOfTheDay,
+    onItemClick: (NasaPictureOfTheDay) -> Unit
 ) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.surface)
-        .clickable { onItemClick(pictureOfTheDay) }
+        .clickable { onItemClick(nasaPictureOfTheDay) }
     ) {
-        val isTitlePresent = TextUtils.isEmpty(pictureOfTheDay.title.trim())
-        val isAuthorsPresent = TextUtils.isEmpty(pictureOfTheDay.author.trim())
-        val isDescriptionPresent = TextUtils.isEmpty(pictureOfTheDay.description.trim())
-        val isDatePresent = TextUtils.isEmpty(pictureOfTheDay.date.trim())
+        val isTitlePresent = TextUtils.isEmpty(nasaPictureOfTheDay.title.trim())
+        val isAuthorsPresent = TextUtils.isEmpty(nasaPictureOfTheDay.author.trim())
+        val isDescriptionPresent = TextUtils.isEmpty(nasaPictureOfTheDay.description.trim())
+        val isDatePresent = TextUtils.isEmpty(nasaPictureOfTheDay.date.trim())
 
         Column(
             modifier = modifier
@@ -51,16 +52,17 @@ fun PictureOfTheDayItemLayout(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(pictureOfTheDay.imageUrl)
-                    .fallback(DrawableUtils.getImagePlaceholderId())
-                    .placeholder(DrawableUtils.getImagePlaceholderId())
-                    .error(DrawableUtils.getImagePlaceholderId())
+                    .data(nasaPictureOfTheDay.imageUrl)
+                    .fallback(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                    .placeholder(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                    .error(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
                     .crossfade(true)
                     .build(),
-                placeholder = DrawableUtils.getImagePlaceholder(),
-                fallback = DrawableUtils.getImagePlaceholder(),
-                error = DrawableUtils.getImagePlaceholder(),
-                contentDescription = pictureOfTheDay.title,
+                placeholder = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+                fallback = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+                error = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+                contentDescription = nasaPictureOfTheDay.title,
+                alignment = Alignment.Center,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .height(240.dp)
@@ -74,7 +76,7 @@ fun PictureOfTheDayItemLayout(
             ) {
                 if (!isTitlePresent) {
                     Text(
-                        text = pictureOfTheDay.title, modifier = Modifier
+                        text = nasaPictureOfTheDay.title, modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = if (!isAuthorsPresent) 8.dp else 4.dp)
                             .wrapContentHeight(),
@@ -89,7 +91,7 @@ fun PictureOfTheDayItemLayout(
                 }
                 if (!isAuthorsPresent) {
                     Text(
-                        text = pictureOfTheDay.author.trim(),
+                        text = nasaPictureOfTheDay.author.trim(),
                         modifier = Modifier
                             .padding(bottom = if (!isDescriptionPresent) 8.dp else 4.dp)
                             .fillMaxWidth(),
@@ -105,7 +107,7 @@ fun PictureOfTheDayItemLayout(
                 }
                 if (!isDescriptionPresent) {
                     Text(
-                        text = pictureOfTheDay.description,
+                        text = nasaPictureOfTheDay.description,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = if (!isDatePresent) 8.dp else 4.dp)
@@ -123,7 +125,7 @@ fun PictureOfTheDayItemLayout(
                 }
                 if (!isDatePresent) {
                     Text(
-                        text = pictureOfTheDay.date.trim(),
+                        text = nasaPictureOfTheDay.date.trim(),
                         modifier = Modifier
                             .fillMaxWidth(),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

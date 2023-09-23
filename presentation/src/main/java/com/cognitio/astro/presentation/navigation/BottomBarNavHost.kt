@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cognitio.astro.presentation.screen.AddScreen
-import com.cognitio.astro.presentation.screen.GalleryScreen
-import com.cognitio.astro.presentation.screen.nasa.home.HomeScreen
+import com.cognitio.astro.presentation.screen.gallery.GalleryScreen
+import com.cognitio.astro.presentation.screen.nasa.screen.NasaPictureOfTheDayScreen
 import com.cognitio.astro.presentation.screen.SettingsScreen
 
 @Composable
@@ -21,12 +21,12 @@ fun BottomBarNavHost(
     modifier = modifier
 ) {
     composable(BaseRoute.HomeRoute.route) {
-        HomeScreen(navigationController = navController)
+        NasaPictureOfTheDayScreen(navigationController = navController)
     }
     composable(BaseRoute.GalleryRoute.route) {
         GalleryScreen(navigationController = navController)
     }
-    composable(BaseRoute.AddRoute.route) {
+    composable(BaseRoute.CameraRoute.route) {
         AddScreen(navigationController = navController)
     }
     composable(BaseRoute.SettingsRoute.route) {

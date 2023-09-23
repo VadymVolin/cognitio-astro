@@ -1,11 +1,12 @@
-package com.cognitio.astro.presentation.screen.nasa.home
+package com.cognitio.astro.presentation.screen.nasa.screen
 
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cognitio.astro.domain.usecases.GetPicturesOfTheDaysUseCase
+import com.cognitio.astro.domain.usecases.GetAllAstroPhotosUseCase
+import com.cognitio.astro.domain.usecases.GetNasaPicturesOfTheDaysUseCase
 import com.cognitio.astro.presentation.screen.common.state.BaseScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,18 +18,21 @@ import javax.inject.Inject
 import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val getPicturesOfTheDaysUseCase: GetPicturesOfTheDaysUseCase
+class NasaPictureOfTheDayScreenViewModel @Inject constructor(
+    private val getNasaPicturesOfTheDaysUseCase: GetNasaPicturesOfTheDaysUseCase,
+    private val getAllAstroPhotosUseCase: GetAllAstroPhotosUseCase
 ) : ViewModel() {
 
     companion object {
-        val TAG: String = HomeViewModel::class.java.name
+        val TAG: String = NasaPictureOfTheDayScreenViewModel::class.java.name
 
         private val DATE_PORTION_STEP = 20L.days.inWholeMilliseconds
     }
 
-    private val _state = mutableStateOf(HomeScreenState(stateStatus = BaseScreenState.StateStatus.INITIAL_LOADING))
-    val state: State<HomeScreenState> = _state
+    private val _state =
+        mutableStateOf(NasaPictureOfTheDayScreenState(stateStatus = BaseScreenState.StateStatus.INITIAL_LOADING))
+    val state: State<NasaPictureOfTheDayScreenState>
+        get() = _state
 
     private val endDateTime: AtomicLong =
         AtomicLong(System.currentTimeMillis() - 1L.days.inWholeMilliseconds)
@@ -40,7 +44,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getData(stateStatus: BaseScreenState.StateStatus) {
-        getPicturesOfTheDaysUseCase.invoke(
+        getNasaPicturesOfTheDaysUseCase.invoke(
             startDate = startDateTime.get(),
             endDate = endDateTime.get()
         )
@@ -60,12 +64,31 @@ class HomeViewModel @Inject constructor(
             .onEach {
                 Log.d(TAG, "Data is loaded, items[${it.size}]")
                 if (it.isEmpty()) {
-                    Log.d(TAG, "No data received")
-                    _state.value = _state.value.copy(
-                        stateStatus = BaseScreenState.StateStatus.ERROR,
-                        error = "No data, please refresh page",
-                        data = ArrayList()
-                    )
+                    when (stateStatus) {
+                        BaseScreenState.StateStatus.INITIAL_LOADING -> {
+                            Log.d(TAG, "No data received")
+                            _state.value = _state.value.copy(
+                                stateStatus = BaseScreenState.StateStatus.ERROR,
+                                error = "No data, please refresh page",
+                                data = ArrayList()
+                            )
+                        }
+
+                        BaseScreenState.StateStatus.NEXT_PAGE_LOADING,
+                        BaseScreenState.StateStatus.PAGE_REFRESH -> {
+                            Log.d(TAG, "No data found, skip")
+                        }
+
+                        else -> {
+                            Log.d(TAG, "No data received")
+                            _state.value = _state.value.copy(
+                                stateStatus = BaseScreenState.StateStatus.ERROR,
+                                error = "No data, please refresh page",
+                                data = ArrayList()
+                            )
+                        }
+                    }
+
                 } else {
                     _state.value = _state.value.copy(
                         stateStatus = BaseScreenState.StateStatus.IDLE,
@@ -82,12 +105,12 @@ class HomeViewModel @Inject constructor(
     }
 
     fun refresh() {
-        resetState()
         getData(BaseScreenState.StateStatus.PAGE_REFRESH)
     }
 
     private fun resetState() {
-        _state.value = HomeScreenState(stateStatus = BaseScreenState.StateStatus.IDLE)
+        _state.value =
+            NasaPictureOfTheDayScreenState(stateStatus = BaseScreenState.StateStatus.IDLE)
         endDateTime.set(System.currentTimeMillis() - 1L.days.inWholeMilliseconds)
         startDateTime.set(endDateTime.get() - DATE_PORTION_STEP)
     }

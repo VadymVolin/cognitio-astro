@@ -2,7 +2,7 @@ package com.cognitio.astro.domain.model
 
 import com.cognitio.astro.util.StringUtils
 
-class PictureOfTheDay(
+class NasaPictureOfTheDay(
     val title: String = StringUtils.EMPTY_STRING,
     val description: String = StringUtils.EMPTY_STRING,
     val author: String = StringUtils.EMPTY_STRING,
