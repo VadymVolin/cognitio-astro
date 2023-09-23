@@ -1,6 +1,6 @@
 package com.cognitio.astro.data.source.nasa.network.api
 
-import com.cognitio.astro.data.source.nasa.network.dto.PictureOfTheDayDTO
+import com.cognitio.astro.data.source.nasa.network.dto.NasaPictureOfTheDayDTO
 import retrofit2.http.GET
 import retrofit2.http.Url
 
@@ -9,5 +9,5 @@ import retrofit2.http.Url
  */
 interface NasaGovApi {
     @GET
-    suspend fun getPictureOfTheDay(@Url url: String): List<PictureOfTheDayDTO>
+    suspend fun getPictureOfTheDay(@Url url: String): List<NasaPictureOfTheDayDTO>
 }

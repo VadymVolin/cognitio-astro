@@ -15,7 +15,7 @@ import com.cognitio.astro.presentation.navigation.BottomBarNavHost
 @Composable
 fun MainActivityLayout() {
     val items = listOf(
-        BaseRoute.HomeRoute, BaseRoute.GalleryRoute, BaseRoute.AddRoute, BaseRoute.SettingsRoute
+        BaseRoute.HomeRoute, BaseRoute.GalleryRoute, BaseRoute.CameraRoute, BaseRoute.SettingsRoute
     )
     val navController = rememberNavController()
     Scaffold(

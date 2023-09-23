@@ -25,4 +25,11 @@ object UrlConstants {
     const val END_DATE_PARAM = "end_date"       // YYYY-MM-DD	today	The end of the date range, when used with start_date.
     const val COUNT_PARAM = "count"             // int	        none	If this is specified then count randomly chosen images will be returned. Cannot be used with date or start_date and end_date.
     const val THUMBS_PARAM = "thumbs"           // bool	        False	Return the URL of video thumbnail. If an APOD is not a video, this parameter is ignored.
+
+    /**
+     * FIREBASE related constants
+     */
+    const val ASTRO_PHOTO_STORAGE_REF = "astro_photo"
+    const val MOON_STORAGE_REF = "moon"
+
 }

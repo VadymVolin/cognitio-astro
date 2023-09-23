@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
     id 'com.google.dagger.hilt.android'
 }
 
@@ -11,7 +12,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.cognitio.astro"
+        applicationId "com.cognitio.astro.android.mobile"
         minSdk 28
         targetSdk 33
         versionCode 1
@@ -52,6 +53,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation("com.google.firebase:firebase-storage-ktx")
 
     implementation 'com.google.dagger:hilt-android:2.48'
     kapt 'com.google.dagger:hilt-compiler:2.48'

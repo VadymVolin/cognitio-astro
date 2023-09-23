@@ -7,8 +7,12 @@ import com.cognitio.astro.presentation.R
 object DrawableUtils {
 
     @Composable
-    fun getImagePlaceholder() = painterResource(R.drawable.planet_placeholder)
+    fun getPainterIcon(iconResource: IconResource) = painterResource(iconResource.resourceId)
 
-    fun getImagePlaceholderId() = R.drawable.planet_placeholder
+    enum class IconResource(val resourceId: Int) {
+        Camera(R.drawable.photo_camera),
+        Gallery(R.drawable.gallery_thumbnail),
+        PlanetPlaceholder(R.drawable.planet_placeholder)
+    }
 
 }

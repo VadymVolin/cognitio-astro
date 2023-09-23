@@ -1,10 +1,10 @@
-package com.cognitio.astro.domain.repository.dto
+package com.cognitio.astro.domain.repository.nasa.dto
 
-import com.cognitio.astro.domain.model.PictureOfTheDay
+import com.cognitio.astro.domain.model.NasaPictureOfTheDay
 import com.cognitio.astro.util.StringUtils
 import java.util.Locale
 
-interface BasePictureOfTheDayDTO {
+interface BaseNasaPictureOfTheDayDTO {
     val copyright: String
         get() = StringUtils.EMPTY_STRING
     val date: String
@@ -25,15 +25,15 @@ interface BasePictureOfTheDayDTO {
         get() = StringUtils.EMPTY_STRING
 }
 
-fun BasePictureOfTheDayDTO.toPictureOfTheDay(): PictureOfTheDay {
-    val mediaType = PictureOfTheDay.MediaType.valueOf(this.mediaType.uppercase(Locale.getDefault()))
-    return PictureOfTheDay(
+fun BaseNasaPictureOfTheDayDTO.toPictureOfTheDay(): NasaPictureOfTheDay {
+    val mediaType = NasaPictureOfTheDay.MediaType.valueOf(this.mediaType.uppercase(Locale.getDefault()))
+    return NasaPictureOfTheDay(
         title = this.title,
         description = this.explanation,
         author = this.copyright,
         date = this.date,
         mediaType = mediaType,
-        videoUrl = if (mediaType == PictureOfTheDay.MediaType.VIDEO) this.thumbnailUrl else this.hdurl,
-        imageUrl = if (mediaType == PictureOfTheDay.MediaType.IMAGE) this.url else this.hdurl
+        videoUrl = if (mediaType == NasaPictureOfTheDay.MediaType.VIDEO) this.thumbnailUrl else this.hdurl,
+        imageUrl = if (mediaType == NasaPictureOfTheDay.MediaType.IMAGE) this.url else this.hdurl
     )
 }
