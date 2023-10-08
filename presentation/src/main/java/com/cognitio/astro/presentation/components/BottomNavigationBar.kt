@@ -2,9 +2,15 @@ package com.cognitio.astro.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -12,7 +18,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.cognitio.astro.presentation.common.DrawableUtils
 import com.cognitio.astro.presentation.navigation.BaseRoute
 
 @Composable
@@ -41,11 +46,11 @@ fun BottomNavigationBar(
                             contentDescription = item.route
                         )
                         BaseRoute.GalleryRoute.route -> Icon(
-                            DrawableUtils.getPainterIcon(DrawableUtils.IconResource.Gallery),
+                            imageVector = Icons.Filled.Image,
                             contentDescription = item.route
                         )
                         BaseRoute.CameraRoute.route -> Icon(
-                            DrawableUtils.getPainterIcon(DrawableUtils.IconResource.Camera),
+                            imageVector = Icons.Filled.PhotoCamera,
                             contentDescription = item.route
                         )
                         BaseRoute.SettingsRoute.route -> Icon(

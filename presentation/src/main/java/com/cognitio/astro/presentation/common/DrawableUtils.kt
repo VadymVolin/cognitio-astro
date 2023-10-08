@@ -10,8 +10,6 @@ object DrawableUtils {
     fun getPainterIcon(iconResource: IconResource) = painterResource(iconResource.resourceId)
 
     enum class IconResource(val resourceId: Int) {
-        Camera(R.drawable.photo_camera),
-        Gallery(R.drawable.gallery_thumbnail),
         PlanetPlaceholder(R.drawable.planet_placeholder)
     }
 
