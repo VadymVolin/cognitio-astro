@@ -1,5 +1,6 @@
 package com.cognitio.astro.presentation.components
 
+import android.util.Log
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.runtime.Composable

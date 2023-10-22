@@ -57,7 +57,6 @@ var activityResultLauncher: ManagedActivityResultLauncher<Array<String>, Map<Str
 
 @Composable
 fun CameraScreen(navigationController: NavHostController) {
-    Log.d(TAG, "CameraScreen: MAIN")
     val context = LocalContext.current
 
     val permissionGrantedState = remember { mutableStateOf(false) }
@@ -72,7 +71,6 @@ fun CameraScreen(navigationController: NavHostController) {
             }
         }
         if (!arePermissionsGranted) {
-            Log.d(TAG, "CameraScreen: BACK")
             navigationController.navigateUp()
             return@rememberLauncherForActivityResult
         } else {
@@ -82,11 +80,9 @@ fun CameraScreen(navigationController: NavHostController) {
 
     // Request camera permissions
     if (allPermissionsGranted() && !permissionGrantedState.value) {
-        Log.d(TAG, "CameraScreen: TEST2")
         CameraDialog(context = context, navigationController = navigationController)
     } else {
         LaunchedEffect(true) {
-            Log.d(TAG, "CameraScreen: TEST3")
             requestPermissions()
         }
     }
@@ -127,7 +123,7 @@ fun CameraView(context: Context, lifecycleCameraController: LifecycleCameraContr
                     put(MediaStore.MediaColumns.DISPLAY_NAME, name)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
                     if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                        put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Cognitio/")
+                        put(MediaStore.Images.Media.RELATIVE_PATH, "Cognitio/")
                     }
                 }
 
@@ -136,7 +132,8 @@ fun CameraView(context: Context, lifecycleCameraController: LifecycleCameraContr
                     .Builder(
                         context.contentResolver,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        contentValues)
+                        contentValues
+                    )
                     .build()
 
                 lifecycleCameraController.takePicture(
