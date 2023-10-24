@@ -41,7 +41,7 @@ fun BottomNavigationBar(
                 ),
                 icon = {
                     when (item.route) {
-                        BaseRoute.HomeRoute.route -> Icon(
+                        BaseRoute.PODRoute.route -> Icon(
                             imageVector = Icons.Filled.Home,
                             contentDescription = item.route
                         )
