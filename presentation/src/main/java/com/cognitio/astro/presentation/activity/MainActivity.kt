@@ -1,5 +1,6 @@
 package com.cognitio.astro.presentation.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
         private val TAG = MainActivity::class.java.name
 
         internal val items = listOf(
-            BaseRoute.HomeRoute, BaseRoute.GalleryRoute, BaseRoute.CameraRoute, BaseRoute.SettingsRoute
+            BaseRoute.PODRoute, BaseRoute.GalleryRoute, BaseRoute.CameraRoute, BaseRoute.SettingsRoute
         )
     }
 
@@ -29,6 +30,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+
 }
 
 @Preview(showBackground = true)

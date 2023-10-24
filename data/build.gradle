@@ -11,10 +11,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_KEY", "\"DEMO_KEY\""
+            buildConfigField "String", "API_KEY", "\"3EwWpmc7llmqyp56gM8rb1GAiKyhdcYTabHAshzX\""
         }
         release {
-            buildConfigField "String", "API_KEY", "\"DEMO_KEY\""
+            buildConfigField "String", "API_KEY", "\"3EwWpmc7llmqyp56gM8rb1GAiKyhdcYTabHAshzX\""
         }
     }
     compileOptions {
