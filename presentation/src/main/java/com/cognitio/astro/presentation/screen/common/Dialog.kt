@@ -38,6 +38,7 @@ import com.cognitio.astro.util.StringUtils
 fun DialogScreen(
     dialogContent: @Composable () -> Unit,
     dialogTitle: String? = StringUtils.EMPTY_STRING,
+    showActionBar: Boolean = true,
     setShowDialog: (Boolean) -> Unit,
 ) {
     Dialog(properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -51,41 +52,43 @@ fun DialogScreen(
         ) {
             Box {
                 dialogContent.invoke()
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(64.dp)
-                        .background(
-                            brush = Brush.verticalGradient(0f to MaterialTheme.colorScheme.surface, 1f to Color.Transparent)
-                        ),
-                    horizontalArrangement = if (dialogTitle == null) Arrangement.End else Arrangement.SpaceBetween
-                ) {
-                    dialogTitle?.let {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(40.dp)
-                                .padding(start = 12.dp, top = 12.dp, end = 64.dp),
-                            text = it,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = TextStyle(
-                                fontSize = 22.sp,
-                                fontFamily = FontFamily.Default,
-                                fontWeight = FontWeight.Black,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                if (showActionBar) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .background(
+                                brush = Brush.verticalGradient(0f to MaterialTheme.colorScheme.surface, 1f to Color.Transparent)
+                            ),
+                        horizontalArrangement = if (dialogTitle == null) Arrangement.End else Arrangement.SpaceBetween
+                    ) {
+                        dialogTitle?.let {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(40.dp)
+                                    .padding(start = 12.dp, top = 12.dp, end = 64.dp),
+                                text = it,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = TextStyle(
+                                    fontSize = 22.sp,
+                                    fontFamily = FontFamily.Default,
+                                    fontWeight = FontWeight.Black,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
                             )
-                        )
+                        }
                     }
+                    Icon(imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.close_icon_text),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .align(Alignment.TopEnd)
+                            .padding(top = 12.dp, end = 12.dp)
+                            .clickable { setShowDialog(false) })
                 }
-                Icon(imageVector = Icons.Filled.Close,
-                    contentDescription = stringResource(R.string.close_icon_text),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.TopEnd)
-                        .padding(top = 12.dp, end = 12.dp)
-                        .clickable { setShowDialog(false) })
             }
         }
     }

@@ -10,13 +10,13 @@ import com.cognitio.astro.presentation.components.BottomNavigationBar
 import com.cognitio.astro.presentation.navigation.BaseRoute
 import com.cognitio.astro.presentation.navigation.BottomBarNavHost
 
+val items = listOf(
+    BaseRoute.PODRoute, BaseRoute.GalleryRoute, BaseRoute.CameraRoute, BaseRoute.SettingsRoute
+)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MainActivityLayout() {
-    val items = listOf(
-        BaseRoute.PODRoute, BaseRoute.GalleryRoute, BaseRoute.CameraRoute, BaseRoute.SettingsRoute
-    )
+fun MainActivityLayout(items: List<BaseRoute>) {
     val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),

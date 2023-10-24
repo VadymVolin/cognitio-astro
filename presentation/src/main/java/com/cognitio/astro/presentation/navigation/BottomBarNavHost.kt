@@ -6,10 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.cognitio.astro.presentation.screen.AddScreen
+import com.cognitio.astro.presentation.screen.camera.CameraScreen
 import com.cognitio.astro.presentation.screen.gallery.GalleryScreen
 import com.cognitio.astro.presentation.screen.nasa.screen.NasaPictureOfTheDayScreen
-import com.cognitio.astro.presentation.screen.SettingsScreen
+import com.cognitio.astro.presentation.screen.settings.SettingsScreen
 
 @Composable
 fun BottomBarNavHost(
@@ -27,7 +27,7 @@ fun BottomBarNavHost(
         GalleryScreen(navigationController = navController)
     }
     composable(BaseRoute.CameraRoute.route) {
-        AddScreen(navigationController = navController)
+        CameraScreen(navigationController = navController)
     }
     composable(BaseRoute.SettingsRoute.route) {
         SettingsScreen(navigationController = navController)
