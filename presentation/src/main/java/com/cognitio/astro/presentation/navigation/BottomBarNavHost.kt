@@ -17,10 +17,10 @@ fun BottomBarNavHost(
     navController: NavHostController = rememberNavController()
 ) = NavHost(
     navController = navController,
-    startDestination = BaseRoute.HomeRoute.route,
+    startDestination = BaseRoute.PODRoute.route,
     modifier = modifier
 ) {
-    composable(BaseRoute.HomeRoute.route) {
+    composable(BaseRoute.PODRoute.route) {
         NasaPictureOfTheDayScreen(navigationController = navController)
     }
     composable(BaseRoute.GalleryRoute.route) {

@@ -2,7 +2,6 @@ package com.cognitio.astro.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -36,16 +35,16 @@ fun BottomNavigationBar(
                 ),
                 icon = {
                     when (item.route) {
-                        BaseRoute.HomeRoute.route -> Icon(
+                        BaseRoute.PODRoute.route -> Icon(
                             imageVector = Icons.Filled.Home,
                             contentDescription = item.route
                         )
                         BaseRoute.GalleryRoute.route -> Icon(
-                            DrawableUtils.getPainterIcon(DrawableUtils.IconResource.Gallery),
+                            painter = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.Gallery),
                             contentDescription = item.route
                         )
                         BaseRoute.CameraRoute.route -> Icon(
-                            DrawableUtils.getPainterIcon(DrawableUtils.IconResource.Camera),
+                            painter = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.Camera),
                             contentDescription = item.route
                         )
                         BaseRoute.SettingsRoute.route -> Icon(

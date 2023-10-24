@@ -9,9 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -83,69 +82,69 @@ fun GalleryScreen(
             })
     }
 
-
     Box(
         modifier = Modifier
             .pullRefresh(refreshState)
             .fillMaxSize()
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .safeContentPadding()
-        ) {
-            items(
-                screenState.value.data.size,
-                key = { Objects.hash(screenState.value.data[it]) },
-            ) { index ->
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(screenState.value.data[index])
-                        .fallback(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
-                        .placeholder(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
-                        .error(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
-                        .crossfade(true)
-                        .build(),
-                    placeholder = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
-                    fallback = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
-                    error = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
-                    contentDescription = screenState.value.data[index],
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .height(280.dp)
-                        .fillMaxWidth()
-                        .padding(start = 4.dp, end = 4.dp, bottom = 4.dp)
-                        .background(MaterialTheme.colorScheme.surface)
-                        .clickable {
-                            Log.d(TAG, "on item click: ${screenState.value.data[index]}")
-                            dialogDataState.value = screenState.value.data[index]
-                            dialogVisibilityState.value = true
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(3),
+            verticalItemSpacing = 1.dp,
+            horizontalArrangement = Arrangement.spacedBy(1.dp),
+            content = {
+                items(
+                    count = screenState.value.data.size,
+                    key = { Objects.hash(screenState.value.data[it]) }
+                ) { index ->
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(screenState.value.data[index])
+                            .fallback(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                            .placeholder(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                            .error(DrawableUtils.IconResource.PlanetPlaceholder.resourceId)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+                        fallback = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+                        error = DrawableUtils.getPainterIcon(DrawableUtils.IconResource.PlanetPlaceholder),
+                        contentDescription = screenState.value.data[index],
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth().height(145.dp)
+                            .background(MaterialTheme.colorScheme.surface)
+                            .clickable {
+                                Log.d(TAG, "on item click: ${screenState.value.data[index]}")
+                                dialogDataState.value = screenState.value.data[index]
+                                dialogVisibilityState.value = true
+                            }
+                    )
+                }
+                item {
+                    if (screenState.value.stateStatus == BaseScreenState.StateStatus.NEXT_PAGE_LOADING) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(
+                                trackColor = MaterialTheme.colorScheme.background,
+                                color = MaterialTheme.colorScheme.primary
+                            )
                         }
-                )
-            }
-            item {
-                if (screenState.value.stateStatus == BaseScreenState.StateStatus.NEXT_PAGE_LOADING) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(
-                            trackColor = MaterialTheme.colorScheme.background,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                } else if (screenState.value.stateStatus == BaseScreenState.StateStatus.INITIAL_LOADING) {
-                    Box(
-                        modifier = Modifier.fillParentMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(
-                            trackColor = MaterialTheme.colorScheme.background,
-                            color = MaterialTheme.colorScheme.primary
-                        )
                     }
                 }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+        if (screenState.value.stateStatus == BaseScreenState.StateStatus.INITIAL_LOADING) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    trackColor = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
         if (screenState.value.error.isNotBlank()) {
