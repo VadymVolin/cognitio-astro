@@ -7,12 +7,12 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.OnImageSavedCallback
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,12 +32,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavHostController
 import com.cognitio.astro.presentation.components.CognitioCameraPreview
 import com.cognitio.astro.presentation.screen.common.DialogScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import okhttp3.internal.toImmutableList
@@ -47,49 +51,84 @@ import java.util.Locale
 private const val TAG: String = "CameraScreen"
 private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
 
-private val requiredPermissions: List<String> =
-    mutableListOf(
-        Manifest.permission.CAMERA
-    ).apply {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
-    }.toImmutableList()
-
-var activityResultLauncher: ManagedActivityResultLauncher<Array<String>, Map<String, @JvmSuppressWildcards Boolean>>? =
-    null
+private val requiredPermissions: List<String> = mutableListOf(
+    Manifest.permission.CAMERA
+).apply {
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+        add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+}.toImmutableList()
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScreen(navigationController: NavHostController) {
+fun CameraScreen(setShowCameraScreen: (Boolean) -> Unit) {
     val context = LocalContext.current
 
-    val permissionState = rememberMultiplePermissionsState(requiredPermissions)
+    val dialogVisibilityState = remember { mutableStateOf(false) }
+    val permissionState = rememberMultiplePermissionsState(requiredPermissions) { permissionsResult ->
+        permissionsResult.forEach {
+            if (requiredPermissions.contains(it.key) && !it.value) {
+                setShowCameraScreen.invoke(false)
+            }
+        }
+    }
 
     if (permissionState.allPermissionsGranted) {
-        Log.d("FORTRA", "CameraScreen: GRANTED")
-        CameraDialog(context = context, navigationController = navigationController)
+        CameraDialog(context = context, setShowCameraScreen = setShowCameraScreen)
     } else {
-        Log.d("FORTRA", "CameraScreen: NOT GRANTED")
-        Box(Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 24.dp)) {
-            Text(
-                modifier = Modifier.fillMaxWidth().align(Alignment.Center),
-                text = getPermissionsRationaleText(
-                    permissionState.permissions,
-                    permissionState.shouldShowRationale
-                )
+        if (!dialogVisibilityState.value) {
+            DialogScreen(dialogContent = {
+                CameraPermissionMessageDialog(permissionState)
+            }, setShowDialog = {
+                setShowCameraScreen.invoke(false)
+            }, showActionBar = false)
+        }
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun CameraPermissionMessageDialog(permissionState: MultiplePermissionsState) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center),
+            color = MaterialTheme.colorScheme.onSurface,
+            text = getPermissionsRationaleText(
+                permissionState.permissions, permissionState.shouldShowRationale
+            ),
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.Normal
             )
-            Button(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter), onClick = {
+        )
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .align(Alignment.BottomCenter)
+            .background(MaterialTheme.colorScheme.primary),
+            onClick = {
                 permissionState.launchMultiplePermissionRequest()
             }) {
-                Text(text = "Ok")
-            }
+            Text(text = "OK",
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.Black
+                ))
         }
     }
 }
 
 @Composable
-fun CameraDialog(context: Context, navigationController: NavHostController) {
+fun CameraDialog(context: Context, setShowCameraScreen: (Boolean) -> Unit) {
     val lifecycleCameraController = remember {
         LifecycleCameraController(context).apply {
             setEnabledUseCases(CameraController.IMAGE_CAPTURE)
@@ -105,20 +144,19 @@ fun CameraDialog(context: Context, navigationController: NavHostController) {
                 dialogVisibilityState.value = it
             })
     } else {
-        navigationController.navigateUp()
+        setShowCameraScreen.invoke(false)
     }
 }
 
 @Composable
 fun CameraView(context: Context, lifecycleCameraController: LifecycleCameraController) {
-    Box(Modifier.fillMaxSize()) {
-        CognitioCameraPreview(lifecycleCameraController, Modifier.matchParentSize())
+    Box(modifier = Modifier.fillMaxSize()) {
+        CognitioCameraPreview(lifecycleCameraController, Modifier.fillMaxSize())
         IconButton(
             onClick = {
                 // Create time stamped name and MediaStore entry.
-                val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-                    .format(System.currentTimeMillis())
-                Log.d(TAG, "CameraView: $name")
+                val name =
+                    SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, name)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
@@ -128,32 +166,26 @@ fun CameraView(context: Context, lifecycleCameraController: LifecycleCameraContr
                 }
 
                 // Create output options object which contains file + metadata
-                val outputOptions = ImageCapture.OutputFileOptions
-                    .Builder(
+                val outputOptions = ImageCapture.OutputFileOptions.Builder(
                         context.contentResolver,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         contentValues
-                    )
-                    .build()
+                    ).build()
 
-                lifecycleCameraController.takePicture(
-                    outputOptions,
+                lifecycleCameraController.takePicture(outputOptions,
                     ContextCompat.getMainExecutor(context),
                     object : OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                             val msg = "Photo capture succeeded: ${outputFileResults.savedUri}"
                             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                            Log.d(TAG, msg)
                         }
 
                         override fun onError(exception: ImageCaptureException) {
                             Log.e(TAG, "onError: Couldn't take a picture", exception)
                         }
 
-                    }
-                )
-            },
-            modifier = Modifier
+                    })
+            }, modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(30.dp)
         ) {
@@ -169,8 +201,7 @@ fun CameraView(context: Context, lifecycleCameraController: LifecycleCameraContr
 
 @OptIn(ExperimentalPermissionsApi::class)
 private fun getPermissionsRationaleText(
-    permissions: List<PermissionState>,
-    shouldShowRationale: Boolean
+    permissions: List<PermissionState>, shouldShowRationale: Boolean
 ): String {
     val revokedPermissionsSize = permissions.size
     if (revokedPermissionsSize == 0) return ""
