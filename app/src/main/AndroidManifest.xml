@@ -18,7 +18,9 @@
         <activity
             android:name=".presentation.activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CognitioAstro">
+            android:theme="@style/Theme.CognitioAstro"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

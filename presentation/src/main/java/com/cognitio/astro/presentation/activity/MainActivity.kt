@@ -13,10 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     companion object {
-        private val TAG = MainActivity::class.java.name
-
         internal val items = listOf(
-            BaseRoute.HomeRoute, BaseRoute.GalleryRoute, BaseRoute.CameraRoute, BaseRoute.SettingsRoute
+            BaseRoute.PODRoute, BaseRoute.GalleryRoute, BaseRoute.SettingsRoute
         )
     }
 

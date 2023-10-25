@@ -49,10 +49,6 @@ fun BottomNavigationBar(
                             imageVector = Icons.Filled.Image,
                             contentDescription = item.route
                         )
-                        BaseRoute.CameraRoute.route -> Icon(
-                            imageVector = Icons.Filled.PhotoCamera,
-                            contentDescription = item.route
-                        )
                         BaseRoute.SettingsRoute.route -> Icon(
                             imageVector = Icons.Filled.Settings,
                             contentDescription = item.route
